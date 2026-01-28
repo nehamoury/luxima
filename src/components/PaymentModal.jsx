@@ -120,7 +120,7 @@ const PaymentModal = ({ isOpen, onClose, total, onPaymentSuccess }) => {
                                         type="submit"
                                         className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xs uppercase tracking-[0.3em] hover:bg-indigo-600 transition-all shadow-xl active:scale-[0.98]"
                                     >
-                                        Pay ${total.toLocaleString()}
+                                        Pay ₹{total.toLocaleString()}
                                     </button>
                                 </div>
 
@@ -153,7 +153,7 @@ const PaymentModal = ({ isOpen, onClose, total, onPaymentSuccess }) => {
                             </div>
                             <h3 className="text-3xl font-serif font-bold text-slate-900 mb-4">Payment Verified</h3>
                             <p className="text-slate-500 leading-relaxed mb-8">
-                                Your transaction of <span className="font-bold font-sans">${total.toLocaleString()}</span> has been processed successfully.
+                                Your transaction of <span className="font-bold font-sans">₹{total.toLocaleString()}</span> has been processed successfully.
                             </p>
                             <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Order ID: #{Math.floor(Math.random() * 1000000)}</p>
                         </div>

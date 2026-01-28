@@ -17,9 +17,9 @@ const CollectionsPage = ({ products, onViewProduct }) => {
 
         // Quick Filter Tags
         let matchesTag = true;
-        if (activeFilter === 'Under $500') matchesTag = product.price < 500;
-        if (activeFilter === '$500 - $1,000') matchesTag = product.price >= 500 && product.price <= 1000;
-        if (activeFilter === '$1,000+') matchesTag = product.price > 1000;
+        if (activeFilter === 'Under ₹40,000') matchesTag = product.price < 40000;
+        if (activeFilter === '₹40,000 - ₹80,000') matchesTag = product.price >= 40000 && product.price <= 80000;
+        if (activeFilter === '₹80,000+') matchesTag = product.price > 80000;
 
         return matchesPrice && matchesTag;
     });
@@ -93,7 +93,7 @@ const CollectionsPage = ({ products, onViewProduct }) => {
                             <h3 className="font-bold text-lg font-serif">Quick Filters</h3>
                         </div>
                         <div className="space-y-3">
-                            {['Under $500', '$500 - $1,000', '$1,000+'].map((label, i) => (
+                            {['Under ₹40,000', '₹40,000 - ₹80,000', '₹80,000+'].map((label, i) => (
                                 <button
                                     key={i}
                                     onClick={() => { setActiveFilter(label); setPriceRange({ min: '', max: '' }); }}
@@ -172,9 +172,9 @@ const CollectionsPage = ({ products, onViewProduct }) => {
                                             <div className="mt-auto flex items-center justify-between">
                                                 <div>
                                                     {discount && (
-                                                        <p className="text-xs text-slate-400 line-through font-medium">${Math.round(product.price * 1.15).toLocaleString()}</p>
+                                                        <p className="text-xs text-slate-400 line-through font-medium">₹{Math.round(product.price * 1.15).toLocaleString()}</p>
                                                     )}
-                                                    <p className="text-xl font-bold text-slate-900">${product.price.toLocaleString()}</p>
+                                                    <p className="text-xl font-bold text-slate-900">₹{product.price.toLocaleString()}</p>
                                                 </div>
 
                                                 <div className="flex gap-2">

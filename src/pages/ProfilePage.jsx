@@ -93,10 +93,10 @@ const ProfilePage = ({ user, orders, onLogout }) => {
                                                     </div>
 
                                                     <div className="text-right">
-                                                        <p className="text-2xl font-light text-slate-900 mb-1">${order.total.toLocaleString()}</p>
+                                                        <p className="text-2xl font-light text-slate-900 mb-1">₹{order.total.toLocaleString()}</p>
                                                         <span className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${order.status === 'Delivered' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
-                                                                order.status === 'Processing' ? 'bg-amber-50 text-amber-600 border-amber-100' :
-                                                                    'bg-slate-50 text-slate-500 border-slate-100'
+                                                            order.status === 'Processing' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                                                'bg-slate-50 text-slate-500 border-slate-100'
                                                             }`}>
                                                             {order.status}
                                                         </span>

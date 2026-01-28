@@ -91,7 +91,7 @@ const HomePage = ({
                                         <h4 className="font-serif text-lg font-bold text-slate-900 truncate">{product.name}</h4>
                                     </div>
                                     <div className="flex justify-between items-center">
-                                        <p className="text-slate-900 font-bold">${product.price.toLocaleString()}</p>
+                                        <p className="text-slate-900 font-bold">₹{product.price.toLocaleString()}</p>
                                         <p className="text-xs text-slate-400 font-medium hover:text-slate-900 transition-colors underline decoration-slate-200 underline-offset-4">View Details</p>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@ const HomePage = ({
                                     </div>
                                 </div>
                                 <h4 className="font-serif text-lg truncate">{product.name}</h4>
-                                <p className="text-sm text-slate-400 font-medium">${product.price}</p>
+                                <p className="text-sm text-slate-400 font-medium">₹{product.price.toLocaleString()}</p>
                             </div>
                         ))}
                     </div>

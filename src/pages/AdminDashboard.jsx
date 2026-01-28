@@ -293,10 +293,10 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                             {/* Stats */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {[
-                                    { label: 'Total Revenue', val: `$${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-emerald-500', bg: isDarkMode ? 'bg-emerald-500/10' : 'bg-emerald-50' },
+                                    { label: 'Total Revenue', val: `₹${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-emerald-500', bg: isDarkMode ? 'bg-emerald-500/10' : 'bg-emerald-50' },
                                     { label: 'Total Orders', val: stats.totalOrders, icon: ShoppingCart, color: 'text-blue-500', bg: isDarkMode ? 'bg-blue-500/10' : 'bg-blue-50' },
                                     { label: 'Customers', val: stats.uniqueCustomers, icon: Users, color: 'text-purple-500', bg: isDarkMode ? 'bg-purple-500/10' : 'bg-purple-50' },
-                                    { label: 'Avg Order Value', val: `$${Math.round(stats.avgOrderValue)}`, icon: TrendingUp, color: 'text-amber-500', bg: isDarkMode ? 'bg-amber-500/10' : 'bg-amber-50' }
+                                    { label: 'Avg Order Value', val: `₹${Math.round(stats.avgOrderValue)}`, icon: TrendingUp, color: 'text-amber-500', bg: isDarkMode ? 'bg-amber-500/10' : 'bg-amber-50' }
                                 ].map((stat, i) => (
                                     <div key={i} className={`${theme.cardBg} p-6 rounded-2xl border ${theme.cardBorder} shadow-sm flex items-center justify-between transition-colors duration-300`}>
                                         <div>
@@ -348,7 +348,7 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                                                 </div>
                                                 <div>
                                                     <p className={`text-sm font-bold ${theme.text}`}>New order from {order.customer}</p>
-                                                    <p className={`text-xs ${theme.subText} mb-1`}>Items: {order.items.length} &bull; Total: ${order.total}</p>
+                                                    <p className={`text-xs ${theme.subText} mb-1`}>Items: {order.items.length} &bull; Total: ₹{order.total}</p>
                                                     <p className={`text-[10px] uppercase font-bold ${theme.subText}`}>{order.date || 'Today'}</p>
                                                 </div>
                                             </div>
@@ -392,7 +392,7 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                                                     </div>
                                                 </td>
                                                 <td className={`p-6 text-sm ${theme.subText}`}>{p.category}</td>
-                                                <td className={`p-6 text-sm font-bold ${theme.text}`}>${p.price}</td>
+                                                <td className={`p-6 text-sm font-bold ${theme.text}`}>₹{p.price}</td>
                                                 <td className="p-6">
                                                     <div className="flex items-center gap-2">
                                                         <div className="h-2 w-16 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
@@ -463,7 +463,7 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                                                     <td className={`p-6 font-mono ${theme.subText}`}>#{order.id}</td>
                                                     <td className={`p-6 font-medium ${theme.text}`}>{order.customer}</td>
                                                     <td className={`p-6 ${theme.subText}`}>{order.items.length} items</td>
-                                                    <td className={`p-6 font-bold ${theme.text}`}>${order.total.toLocaleString()}</td>
+                                                    <td className={`p-6 font-bold ${theme.text}`}>₹{order.total.toLocaleString()}</td>
                                                     <td className={`p-6 ${theme.subText}`}>{order.date || 'Today'}</td>
                                                     <td className="p-6">
                                                         <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border ${getStatusColor(order.status)}`}>
@@ -571,7 +571,7 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
 
                                 <div className="grid grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <label className={`text-xs font-bold uppercase tracking-widest ${theme.subText}`}>Price ($)</label>
+                                        <label className={`text-xs font-bold uppercase tracking-widest ${theme.subText}`}>Price (₹)</label>
                                         <input
                                             type="number"
                                             className={`w-full ${theme.inputBg} border ${theme.inputBorder} rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-slate-900 transition-all font-medium ${theme.text}`}

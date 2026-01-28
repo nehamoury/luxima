@@ -5,7 +5,7 @@ export const PRODUCTS = [
         id: 1,
         name: "Velvet Cloud Sofa",
         category: "Living Room",
-        price: 1299,
+        price: 105000,
         description: "Ultra-soft velvet sofa with ergonomic support and modern minimalist design.",
         image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800",
         rating: 4.8
@@ -14,7 +14,7 @@ export const PRODUCTS = [
         id: 2,
         name: "Oak Dining Table",
         category: "Kitchen",
-        price: 899,
+        price: 72000,
         description: "Solid sustainable oak table that fits perfectly in modern kitchens.",
         image: "https://images.unsplash.com/photo-1530018607912-eff2df119d11?auto=format&fit=crop&q=80&w=800",
         rating: 4.5
@@ -23,7 +23,7 @@ export const PRODUCTS = [
         id: 3,
         name: "Ethereal Floor Lamp",
         category: "Decor",
-        price: 299,
+        price: 24500,
         description: "Sculptural lighting piece that adds warmth and character to any corner.",
         image: "https://images.unsplash.com/photo-1507473884658-c7a36524bb3f?auto=format&fit=crop&q=80&w=800",
         rating: 4.9
@@ -32,7 +32,7 @@ export const PRODUCTS = [
         id: 4,
         name: "Walnut Desk",
         category: "Office",
-        price: 799,
+        price: 65000,
         description: "Handcrafted walnut desk with built-in cable management.",
         image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&q=80&w=800",
         rating: 4.7
@@ -41,7 +41,7 @@ export const PRODUCTS = [
         id: 5,
         name: "Serenity Platform Bed",
         category: "Bedroom",
-        price: 1599,
+        price: 129000,
         description: "Low-profile bed frame with premium upholstered headboard.",
         image: "https://images.unsplash.com/photo-1505693419173-42b9258a01b6?auto=format&fit=crop&q=80&w=800",
         rating: 4.6
@@ -50,7 +50,7 @@ export const PRODUCTS = [
         id: 6,
         name: "Minimalist Wall Clock",
         category: "Decor",
-        price: 89,
+        price: 7500,
         description: "Modern silent sweep clock with brushed metal finish.",
         image: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&q=80&w=800",
         rating: 4.4
@@ -59,7 +59,7 @@ export const PRODUCTS = [
         id: 7,
         name: "Scandi Armchair",
         category: "Living Room",
-        price: 459,
+        price: 36000,
         description: "Classic Scandinavian design with breathable linen fabric.",
         image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=800",
         rating: 4.8
@@ -68,7 +68,7 @@ export const PRODUCTS = [
         id: 8,
         name: "Ceramic Vase Set",
         category: "Decor",
-        price: 129,
+        price: 10500,
         description: "Trio of matte ceramic vases in earth tones.",
         image: "https://images.unsplash.com/photo-1581783898377-1c85bf937427?auto=format&fit=crop&q=80&w=800",
         rating: 5.0

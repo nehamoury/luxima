@@ -24,7 +24,7 @@ const NewArrivalsPage = ({ products, onViewProduct }) => (
                     </div>
                     <div className="text-center">
                         <h4 className="font-serif text-2xl mb-2">{product.name}</h4>
-                        <p className="text-slate-500">${product.price.toLocaleString()}</p>
+                        <p className="text-slate-500">₹{product.price.toLocaleString()}</p>
                     </div>
                 </div>
             ))}

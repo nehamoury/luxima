@@ -491,7 +491,7 @@ const App = () => {
                                                 <h4 className="font-serif text-lg">{item.name}</h4>
                                                 <button onClick={() => removeFromCart(item.id)} className="text-slate-300 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
                                             </div>
-                                            <p className="text-xs text-slate-400 mb-2">${item.price}</p>
+                                            <p className="text-xs text-slate-400 mb-2">₹{item.price.toLocaleString()}</p>
                                             <div className="flex items-center gap-4 bg-slate-50 w-fit px-3 py-1 rounded-full text-xs">
                                                 <button onClick={() => updateQuantity(item.id, -1)}><Minus className="w-3 h-3" /></button>
                                                 <span className="font-bold">{item.quantity}</span>
@@ -504,7 +504,7 @@ const App = () => {
                             </div>
                             {cart.length > 0 && (
                                 <div className="p-8 border-t bg-slate-50">
-                                    <div className="flex justify-between font-serif text-xl mb-6"><span>Total</span><span>${cartTotal.toLocaleString()}</span></div>
+                                    <div className="flex justify-between font-serif text-xl mb-6"><span>Total</span><span>₹{cartTotal.toLocaleString()}</span></div>
                                     <button onClick={handleCheckout} className="w-full bg-slate-900 text-white py-5 rounded-xl font-bold hover:bg-slate-800 transition-all">Proceed to Checkout</button>
                                 </div>
                             )}
@@ -539,7 +539,7 @@ const App = () => {
                                         </div>
                                         <div className="flex-1">
                                             <h4 className="font-serif text-lg mb-1">{item.name}</h4>
-                                            <p className="text-sm font-bold text-slate-900 mb-4">${item.price}</p>
+                                            <p className="text-sm font-bold text-slate-900 mb-4">₹{item.price.toLocaleString()}</p>
                                             <button
                                                 onClick={() => { addToCart(item); toggleWishlist(item); }}
                                                 className="text-[10px] uppercase tracking-widest font-bold text-indigo-600 border-b border-indigo-100 pb-1 flex items-center gap-2"

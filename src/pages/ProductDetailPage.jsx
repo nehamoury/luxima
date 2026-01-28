@@ -123,7 +123,7 @@ const ProductDetailPage = ({ products, addToCart, toggleWishlist, wishlist }) =>
                             </h2>
 
                             <div className="flex items-center gap-8 mb-10">
-                                <p className="text-4xl font-light text-slate-900 tracking-tight">${product.price.toLocaleString()}</p>
+                                <p className="text-4xl font-light text-slate-900 tracking-tight">₹{product.price.toLocaleString()}</p>
                                 <div className="h-10 w-[1px] bg-slate-200"></div>
                                 <div className="space-y-1">
                                     <div className="flex text-amber-500 gap-0.5">
@@ -341,7 +341,7 @@ const ProductDetailPage = ({ products, addToCart, toggleWishlist, wishlist }) =>
                                     <div className="px-2">
                                         <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-2">{rp.category}</p>
                                         <h4 className="font-serif text-xl text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">{rp.name}</h4>
-                                        <p className="text-sm font-bold text-slate-900">${rp.price.toLocaleString()}</p>
+                                        <p className="text-sm font-bold text-slate-900">₹{rp.price.toLocaleString()}</p>
                                     </div>
                                 </Link>
                             ))

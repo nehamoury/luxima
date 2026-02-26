@@ -12,7 +12,6 @@ import {
     Bell,
     TrendingUp,
     DollarSign,
-
     Moon,
     Sun,
     CheckCircle,
@@ -25,6 +24,15 @@ import {
     RefreshCcw,
     Check
 } from 'lucide-react';
+import {
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer
+} from 'recharts';
 
 const PRESET_IMAGES = [
     { name: 'Modern Living', url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800' },
@@ -44,6 +52,31 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
     const [statusFilter, setStatusFilter] = useState('All');
     const [isDarkMode, setIsDarkMode] = useState(false); // Default to light mode for now
     const [realCustomers, setRealCustomers] = useState([]);
+
+    // Derived Chart Data (Last 7 days revenue)
+    const chartData = useMemo(() => {
+        const last7Days = [...Array(7)].map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (6 - i));
+            return d.toISOString().split('T')[0];
+        });
+
+        const revenueMap = {};
+        last7Days.forEach(date => revenueMap[date] = 0);
+
+        orders.forEach(order => {
+            const orderDate = order.date;
+            if (revenueMap[orderDate] !== undefined) {
+                revenueMap[orderDate] += Number(order.total) || 0;
+            }
+        });
+
+        return last7Days.map(date => ({
+            name: new Date(date).toLocaleDateString(undefined, { weekday: 'short' }),
+            revenue: revenueMap[date],
+            date
+        }));
+    }, [orders]);
 
     useEffect(() => {
         if (activeView === 'customers') {
@@ -315,25 +348,62 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                                 {/* Sales Chart Placeholder */}
                                 <div className={`lg:col-span-2 ${theme.cardBg} p-6 rounded-2xl border ${theme.cardBorder} shadow-sm transition-colors duration-300`}>
                                     <div className="flex justify-between items-center mb-6">
-                                        <h3 className={`font-bold text-lg ${theme.text}`}>Revenue Analytics</h3>
-                                        <select className={`${theme.inputBg} border-none text-xs font-bold rounded-lg px-3 py-1 outline-none ${theme.subText} cursor-pointer`}>
-                                            <option>This Week</option>
-                                            <option>This Month</option>
-                                            <option>This Year</option>
-                                        </select>
-                                    </div>
-                                    <div className="h-64 flex items-end gap-2 justify-between px-2">
-                                        {[40, 70, 45, 90, 65, 85, 100].map((h, i) => (
-                                            <div key={i} className="w-full bg-slate-50/10 rounded-t-lg relative group">
-                                                <div
-                                                    className="absolute bottom-0 inset-x-2 bg-slate-900 dark:bg-indigo-500 rounded-t-md transition-all duration-1000 group-hover:bg-indigo-600"
-                                                    style={{ height: `${h}%` }}
-                                                ></div>
-                                                <div className={`absolute -bottom-6 inset-x-0 text-center text-[10px] ${theme.subText} font-bold uppercase`}>
-                                                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][i]}
-                                                </div>
+                                        <div>
+                                            <h3 className={`font-bold text-lg ${theme.text}`}>Revenue Analytics</h3>
+                                            <p className={`text-[10px] uppercase font-bold tracking-widest ${theme.subText} mt-1`}>Last 7 Days Performance</p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <div className="flex items-center gap-1">
+                                                <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                                                <span className="text-[10px] font-bold text-slate-400">Revenue</span>
                                             </div>
-                                        ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="h-72 w-full mt-4">
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                                <defs>
+                                                    <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.1} />
+                                                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                                                    </linearGradient>
+                                                </defs>
+                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#334155' : '#f1f5f9'} />
+                                                <XAxis
+                                                    dataKey="name"
+                                                    axisLine={false}
+                                                    tickLine={false}
+                                                    tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 10, fontWeight: 700 }}
+                                                    dy={10}
+                                                />
+                                                <YAxis
+                                                    axisLine={false}
+                                                    tickLine={false}
+                                                    tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 10, fontWeight: 700 }}
+                                                />
+                                                <Tooltip
+                                                    contentStyle={{
+                                                        backgroundColor: isDarkMode ? '#0f172a' : '#fff',
+                                                        borderRadius: '16px',
+                                                        border: 'none',
+                                                        boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                                                        fontSize: '12px',
+                                                        fontWeight: '700'
+                                                    }}
+                                                    itemStyle={{ color: '#6366f1' }}
+                                                />
+                                                <Area
+                                                    type="monotone"
+                                                    dataKey="revenue"
+                                                    stroke="#6366f1"
+                                                    strokeWidth={3}
+                                                    fillOpacity={1}
+                                                    fill="url(#colorRevenue)"
+                                                    animationDuration={2000}
+                                                />
+                                            </AreaChart>
+                                        </ResponsiveContainer>
                                     </div>
                                 </div>
 

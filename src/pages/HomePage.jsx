@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
-import { Quote, ChevronLeft, ChevronRight, Star, Heart } from 'lucide-react';
+import { Quote, Star, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import HeroCarousel from '../components/HeroCarousel';
-import { CATEGORIES, TESTIMONIALS, FALLBACK_IMAGE } from '../constants';
+import RecentlyViewed from '../components/RecentlyViewed';
+import { FALLBACK_IMAGE, CATEGORIES, TESTIMONIALS } from '../constants';
 
 const HomePage = ({
     products,
@@ -151,6 +152,8 @@ const HomePage = ({
                     ))}
                 </div>
             </section>
+
+            <RecentlyViewed products={products} />
         </>
     );
 };

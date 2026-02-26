@@ -105,5 +105,27 @@ export const api = {
         });
         if (!res.ok) throw new Error('Upload failed');
         return res.json();
+    },
+
+    // Reviews
+    getReviews: async (productId) => {
+        const res = await fetch(`${API_URL}/reviews/${productId}`);
+        return res.json();
+    },
+    addReview: async (review) => {
+        const res = await fetch(`${API_URL}/reviews`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(review),
+        });
+        return res.json();
+    },
+    validateCoupon: async (code, total) => {
+        const res = await fetch(`${API_URL}/coupons/validate?code=${encodeURIComponent(code)}&total=${total}`);
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || 'Invalid coupon');
+        }
+        return res.json();
     }
 };

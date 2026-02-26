@@ -1,0 +1,29 @@
+                        HARDWARE & SOFTWARE REQUIREMENTS
+                        _______________________________
+
+1. HARDWARE REQUIREMENTS:
+
+    The minimum hardware requirements for the development and execution of the 
+Luxima E-Commerce Management System are as follows:
+
+    > Processor           : Dual Core Processor or Higher (i3, i5 recommended).
+    > RAM                 : 4 GB or Higher (8 GB recommended for development).
+    > Hard Disk           : 20 GB of available space.
+    > Monitor             : Standard Color Monitor with 1024x768 resolution.
+    > Input Devices       : Keyboard and Mouse.
+
+2. SOFTWARE REQUIREMENTS:
+
+    The software environment needed to run the MERN-P (React, Node, Postgres) 
+infrastructure efficiently:
+
+    > Operating System    : Windows 10/11, macOS, or Linux.
+    > Web Browser         : Google Chrome, Mozilla Firefox, or Microsoft Edge.
+    > Text Editor / IDE   : Visual Studio Code (VS Code).
+    > Runtime Environment : Node.js (Version 18.x or Higher).
+    > Package Manager     : npm (Node Package Manager) or yarn.
+    > Frontend Library    : React.js (v18+).
+    > Styling Framework   : Tailwind CSS.
+    > Backend Framework   : Express.js.
+    > Database Management : PostgreSQL (Neon Serverless).
+    > API Testing Tool    : Postman or Thunder Client (for backend verification).

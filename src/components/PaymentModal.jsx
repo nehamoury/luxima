@@ -16,6 +16,34 @@ const PaymentModal = ({ isOpen, onClose, total, onPaymentSuccess }) => {
         }
     }, [isOpen]);
 
+    const [couponCode, setCouponCode] = useState('');
+    const [couponError, setCouponError] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [isValidating, setIsValidating] = useState(false);
+
+    const discountAmount = appliedCoupon
+        ? (appliedCoupon.discount_type === 'percentage'
+            ? (total * appliedCoupon.discount_value / 100)
+            : parseFloat(appliedCoupon.discount_value))
+        : 0;
+
+    const finalTotal = total - discountAmount;
+
+    const handleApplyCoupon = async () => {
+        if (!couponCode) return;
+        setIsValidating(true);
+        setCouponError('');
+        try {
+            const coupon = await api.validateCoupon(couponCode, total);
+            setAppliedCoupon(coupon);
+            setCouponCode('');
+        } catch (err) {
+            setCouponError(err.message);
+        } finally {
+            setIsValidating(false);
+        }
+    };
+
     const handlePayment = (e) => {
         e.preventDefault();
         setStep('processing');
@@ -25,9 +53,14 @@ const PaymentModal = ({ isOpen, onClose, total, onPaymentSuccess }) => {
             setStep('success');
             // Notify parent after a short delay
             setTimeout(() => {
-                onPaymentSuccess();
+                onPaymentSuccess(finalTotal, appliedCoupon?.code);
             }, 2000);
         }, 3000);
+    };
+
+    const handleRemoveCoupon = () => {
+        setAppliedCoupon(null);
+        setCouponError('');
     };
 
     if (!isOpen) return null;
@@ -115,12 +148,63 @@ const PaymentModal = ({ isOpen, onClose, total, onPaymentSuccess }) => {
                                     </div>
                                 </div>
 
+                                <div className="space-y-4 pt-4 border-t border-slate-100 italic">
+                                    <div className="flex justify-between items-center text-sm">
+                                        <span className="text-slate-400">Subtotal</span>
+                                        <span className="text-slate-900 font-bold">₹{total.toLocaleString()}</span>
+                                    </div>
+
+                                    {appliedCoupon ? (
+                                        <div className="flex justify-between items-center text-sm text-emerald-600 animate-in fade-in slide-in-from-left-2 transition-all">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[10px] uppercase tracking-widest font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
+                                                    {appliedCoupon.code}
+                                                </span>
+                                                <button
+                                                    onClick={handleRemoveCoupon}
+                                                    className="text-slate-300 hover:text-rose-500 transition-colors"
+                                                >
+                                                    <X size={12} />
+                                                </button>
+                                            </div>
+                                            <span className="font-bold">-₹{discountAmount.toLocaleString()}</span>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Promo Code</label>
+                                            <div className="flex gap-2">
+                                                <input
+                                                    type="text"
+                                                    placeholder="ENTER CODE"
+                                                    className="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all font-bold tracking-widest uppercase"
+                                                    value={couponCode}
+                                                    onChange={e => setCouponCode(e.target.value)}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    disabled={isValidating || !couponCode}
+                                                    onClick={handleApplyCoupon}
+                                                    className="bg-slate-900 text-white px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-indigo-600 transition-all disabled:opacity-50"
+                                                >
+                                                    {isValidating ? '...' : 'Apply'}
+                                                </button>
+                                            </div>
+                                            {couponError && <p className="text-[10px] text-rose-500 font-bold italic">{couponError}</p>}
+                                        </div>
+                                    )}
+
+                                    <div className="flex justify-between items-center text-lg border-t border-slate-100 pt-4">
+                                        <span className="font-serif text-slate-900">Total Due</span>
+                                        <span className="text-slate-900 font-bold">₹{finalTotal.toLocaleString()}</span>
+                                    </div>
+                                </div>
+
                                 <div className="pt-4">
                                     <button
                                         type="submit"
                                         className="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xs uppercase tracking-[0.3em] hover:bg-indigo-600 transition-all shadow-xl active:scale-[0.98]"
                                     >
-                                        Pay ₹{total.toLocaleString()}
+                                        Pay ₹{finalTotal.toLocaleString()}
                                     </button>
                                 </div>
 

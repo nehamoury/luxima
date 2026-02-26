@@ -1,0 +1,35 @@
+                          DATABASE DESIGN & E-R DIAGRAM
+                          _____________________________
+
+The Luxima project utilizes a relational database structure (PostgreSQL) to 
+manage complex associations between products, customers, and their interactions.
+
+1. ENTITIES AND ATTRIBUTES:
+
+    > PRODUCT           : ID (PK), Name, Description, Price, Category, 
+                          Image_URL, Rating, Stock_Quantity.
+    > ORDER             : ID (PK), Customer_Name, Customer_Email, Total_Amount, 
+                          Status (Processing/Shipped), Created_At.
+    > ORDER_ITEMS       : ID (PK), Order_ID (FK), Product_ID (FK), Quantity, Price.
+    > REVIEW            : ID (PK), Product_ID (FK), Customer_Name, Rating, 
+                          Comment, Created_At.
+    > COUPON            : ID (PK), Code (Unique), Discount_Type (Fixed/Percent), 
+                          Value, Min_Amount, Expiry_Date, Is_Active.
+
+2. RELATIONSHIPS:
+
+    > Product - Review  : 1:N (One product can have many reviews).
+    > Order - OrderItems: 1:N (One order can contain multiple product items).
+    > Product-OrderItems: 1:N (A product can be part of many order records).
+    > Order - Coupon    : Many-to-One (Many orders can use the same coupon code).
+
+3. DATA FLOW DESCRIPTION:
+
+    - When a customer views a product, the system fetches the details from the 
+      Product table along with its associated Reviews.
+    - During Checkout, the Promo Code Engine validates the input against the 
+      Coupon table using the "Min_Amount" and "Expiry_Date" logic.
+    - Upon successful payment, a new record is created in the Order table, 
+      and the specific line items are stored in the Order_Items table for 
+      accurate historical reporting and Invoice generation.
+    - Product stok quantity is decremented based on the units sold.

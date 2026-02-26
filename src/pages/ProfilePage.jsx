@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { User, Package, MapPin, Settings, LogOut, ChevronRight, ShoppingBag, CreditCard, Shield } from 'lucide-react';
+import { User, Package, MapPin, Settings, LogOut, ChevronRight, ShoppingBag, CreditCard, Shield, FileText } from 'lucide-react';
+import InvoiceView from '../components/InvoiceView';
 
 const ProfilePage = ({ user, orders, onLogout }) => {
     const [activeTab, setActiveTab] = useState('orders');
+    const [selectedInvoice, setSelectedInvoice] = useState(null);
 
     if (!user) {
         return (
@@ -20,6 +22,14 @@ const ProfilePage = ({ user, orders, onLogout }) => {
 
     return (
         <div className="bg-white min-h-screen selection:bg-slate-900 selection:text-white">
+            {/* Invoice Overlay */}
+            {selectedInvoice && (
+                <InvoiceView
+                    order={selectedInvoice}
+                    onClose={() => setSelectedInvoice(null)}
+                />
+            )}
+
             <div className="pt-32 pb-24 container mx-auto px-6 max-w-6xl">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
@@ -78,10 +88,16 @@ const ProfilePage = ({ user, orders, onLogout }) => {
                                     <div className="space-y-6">
                                         {userOrders.map(order => (
                                             <div key={order.id} className="group bg-white border border-slate-100 rounded-[2rem] p-8 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 overflow-hidden relative">
-                                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
+                                                <div className="flex flex-col md:flex-row justify-between items-start md:items-start gap-6 relative z-10">
                                                     <div className="space-y-1">
                                                         <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400">Order #{order.id}</p>
                                                         <p className="text-sm font-bold text-slate-900">{new Date(order.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                                                        <button
+                                                            onClick={() => setSelectedInvoice(order)}
+                                                            className="flex items-center gap-2 mt-4 text-[10px] uppercase tracking-widest font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                                                        >
+                                                            <FileText size={14} /> View Invoice
+                                                        </button>
                                                     </div>
 
                                                     <div className="flex flex-wrap gap-4">

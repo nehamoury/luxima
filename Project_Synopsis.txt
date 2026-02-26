@@ -1,0 +1,28 @@
+                                SYNOPSIS OF THE PROJECT
+                                _______________________
+
+        Luxima E-Commerce Management System by using React.js and Node.js. The basic 
+concept to develop this project was to manage an online shop, Products, Users, and 
+sales orders. If you are looking for an E-Commerce React project for learning and 
+developing a full-stack web application in JavaScript, then it's a good option for 
+you. This project is suitable for college or university projects in Web Development. 
+Luxima E-Commerce Management System is developed using JavaScript/Node.js 
+Programming Language. It's a web-based projects so we have used HTML, Tailwind CSS, 
+JavaScript, and React also. Luxima E-Commerce System is a full-stack database 
+project using PostgreSQL where you can manage all the functionalities related to 
+an online commerce shop. If you are looking for modern web application projects, 
+you can use this structure to learn and easily get hands-on experience with source 
+code and best full-stack practices.
+
+        The main feature of the project is to manage the records of the Shop and 
+its shop Products. It's an admin based React.js project, where admin can manage 
+the Product sales, Product stocks, Sales Analytics, and Product categories. Other 
+features of the Luxima E-Commerce Management System include the item addition 
+process, where while adding items from the admin account, the user has to provide 
+Product name, Product price, Product category, image, description, and Product stock 
+quantity. Similarly, while updating Products, the user has to select the Product, 
+and modify the details such as available stock quantity. Removing a Product is also 
+too easy, he/she just has to open the report and hit the delete Product option. 
+The system displays Particulars (Product name) with Available stock, Category, 
+Rating, and Price while viewing stocks. Additionally, the system provides professional 
+features like order invoices, promo code validation, and customer review management.

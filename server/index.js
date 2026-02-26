@@ -185,16 +185,77 @@ app.post('/orders', async (req, res) => {
     }
 });
 
-// Update Order Status
-app.patch('/orders/:id', async (req, res) => {
+// --- REVIEWS ROUTES ---
+
+// Get reviews for a product
+app.get('/reviews/:productId', async (req, res) => {
     try {
-        const { id } = req.params;
-        const { status } = req.body;
+        const { productId } = req.params;
         const result = await pool.query(
-            'UPDATE orders SET status = $1 WHERE id = $2 RETURNING *',
-            [status, id]
+            'SELECT * FROM reviews WHERE product_id = $1 ORDER BY created_at DESC',
+            [productId]
         );
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Add a review
+app.post('/reviews', async (req, res) => {
+    try {
+        const { product_id, customer_name, customer_email, rating, comment } = req.body;
+        const result = await pool.query(
+            'INSERT INTO reviews (product_id, customer_name, customer_email, rating, comment) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [product_id, customer_name, customer_email, rating, comment]
+        );
+
+        // Update product average rating (optional but professional)
+        await pool.query(
+            'UPDATE products SET rating = (SELECT AVG(rating) FROM reviews WHERE product_id = $1) WHERE id = $1',
+            [product_id]
+        );
+
         res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// --- COUPON ROUTES ---
+
+// Validate coupon
+app.get('/coupons/validate', async (req, res) => {
+    try {
+        const { code, total } = req.query;
+        if (!code) return res.status(400).json({ error: 'Coupon code required' });
+
+        const result = await pool.query(
+            'SELECT * FROM coupons WHERE code = $1 AND is_active = true',
+            [code.toUpperCase()]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Invalid or inactive coupon code' });
+        }
+
+        const coupon = result.rows[0];
+
+        // Check expiry
+        if (coupon.expiry_date && new Date(coupon.expiry_date) < new Date()) {
+            return res.status(400).json({ error: 'Coupon code has expired' });
+        }
+
+        // Check min purchase
+        if (total && parseFloat(total) < parseFloat(coupon.min_purchase)) {
+            return res.status(400).json({
+                error: `Minimum purchase of ₹${parseFloat(coupon.min_purchase).toLocaleString()} required for this coupon`
+            });
+        }
+
+        res.json(coupon);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error' });

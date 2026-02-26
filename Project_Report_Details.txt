@@ -1,0 +1,73 @@
+                          OBJECTIVE OF THE PROJECT
+                          ________________________
+
+    Aim of the project: The Luxima e-commerce management system is a high-end web 
+software which can be used in an array of premium home decor and lifestyle outlets. 
+The aim of this project is to design and develop a luxury retail platform which 
+provides seamless product discovery, advanced sales analytics, and automated 
+financial record keeping.
+
+    Objective of the project: The objective of this project is to organize the luxury 
+store details like furniture, lighting, accessories, sales and customer feedback. 
+The project mainly developed at the administrative end and therefore it only provides 
+access to the administrator of the store. The Luxima store management system is 
+developed as a React-based application for modernizing management of premium inventory, 
+sales tracking and customer engagement. The major objectives are:
+
+    > To maintain the daily sales and revenue in an efficient manner (Recharts).
+    > Preparation of various analysis reports for the administrator.
+    > Generation of professional order invoices for customers.
+    > To manage the premium resources and product stocks efficiently.
+    > To reduce the manual errors during stock and price updates.
+    > To manage the customer review and social proof data professionally.
+    
+    __________________________________________________________________________________
+
+    Financial Control: A critical item in the management of sales is the revenue 
+tracking and budget handling. Luxima provides the store manager with visual analytics 
+(Sales Charts) to ensure that revenue trends are monitored and stock levels are 
+maintained to ensure a high Return on Investment (ROI) on premium pieces.
+
+    Decision Making: When making a decision in premium retail, all aspects of the 
+inventory and customer trends need to be considered. By using Luxima's analytical 
+dashboard, the decision-making process is improved, as product popularity (Reviews) 
+and sales data are clearly presented in one place.
+
+    Risk Management: Luxima handles transaction risks by logging every order 
+securely in a PostgreSQL database. The automated coupon validation engine ensures 
+that promotional risks are minimized and discounts are applied only when valid.
+
+    USER INFORMATION:
+    > The project is designed in such a manner that it can provide all the detail 
+      information of USERS and their purchase history.
+
+    DATABASE INFORMATION:
+    > This project is designed in such a manner that it can provide all the detail 
+      information of the product database, including categories and ratings.
+
+    REPORT GENERATION:
+    > This project is designed to provide various Summary and detailed reports of 
+      stored data. We can also filter our collections using various filters (Price, 
+      Category, Sorting).
+
+    Tracking: Tracking the progress of product sales and customer reviews is important 
+    for the long term success of the Luxima business. The integrated Analytics 
+    Dashboard gives the administrator visibility into sales trends over a 7-day 
+    period, showing what has been sold and identifying top-performing categories. 
+    The system reduces the need for manual record-keeping by providing real-time 
+    updates on revenue and stock level status.
+
+    Resourcing: The Luxima management system ensures that the optimal technical 
+    resources (React.js for speed, PostgreSQL for reliability) are working together 
+    to handle high-traffic retail scenarios. Mapping product metadata to relational 
+    tables through the project management infrastructure ensures that the system 
+    knows all the information needed to complete a customer checkout and fulfill 
+    orders smoothly.
+
+    Communication: The Luxima system makes communication channels regarding 
+    purchases and product feedback easier through the automated generation of 
+    Invoices and the public Review System. Communication with your customers can 
+    be made simpler as business documents e.g. Invoices can be sent and viewed 
+    directly from the platform, while the virtual review-history database helps 
+    with the follow-up process and improvement of the inventory based on direct 
+    patron feedback.

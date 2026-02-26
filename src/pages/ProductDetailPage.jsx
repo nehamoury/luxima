@@ -14,6 +14,7 @@ import {
     Calendar,
     MessageSquare
 } from 'lucide-react';
+import { api } from '../api';
 import { FALLBACK_IMAGE } from '../constants';
 
 const ProductDetailPage = ({ products, addToCart, toggleWishlist, wishlist }) => {
@@ -23,15 +24,52 @@ const ProductDetailPage = ({ products, addToCart, toggleWishlist, wishlist }) =>
     const [selectedImage, setSelectedImage] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [isAdding, setIsAdding] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [showReviewForm, setShowReviewForm] = useState(false);
+    const [newReview, setNewReview] = useState({ rating: 5, comment: '', name: '' });
 
     useEffect(() => {
         if (products.length > 0) {
             const found = products.find(p => p.id.toString() === id.toString());
             setProduct(found);
-            if (found) setSelectedImage(found.image);
+            if (found) {
+                setSelectedImage(found.image);
+                fetchReviews(found.id);
+
+                // Track recently viewed
+                const recent = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+                const updated = [id, ...recent.filter(item => item.toString() !== id.toString())].slice(0, 10);
+                localStorage.setItem('recentlyViewed', JSON.stringify(updated));
+            }
         }
         window.scrollTo(0, 0);
     }, [id, products]);
+
+    const fetchReviews = async (productId) => {
+        try {
+            const data = await api.getReviews(productId);
+            setReviews(data);
+        } catch (err) {
+            console.error("Error fetching reviews:", err);
+        }
+    };
+
+    const handleReviewSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await api.addReview({
+                product_id: product.id,
+                customer_name: newReview.name || 'Anonymous User',
+                rating: newReview.rating,
+                comment: newReview.comment
+            });
+            setNewReview({ rating: 5, comment: '', name: '' });
+            setShowReviewForm(false);
+            fetchReviews(product.id);
+        } catch (err) {
+            console.error("Error submitting review:", err);
+        }
+    };
 
     const relatedProducts = useMemo(() => {
         if (!product) return [];
@@ -266,44 +304,89 @@ const ProductDetailPage = ({ products, addToCart, toggleWishlist, wishlist }) =>
                                     <p className="text-[10px] uppercase tracking-[0.4em] text-slate-400 font-bold mb-4">Atmosphere Feedback</p>
                                     <h3 className="text-4xl font-serif text-slate-900">Patron Reviews.</h3>
                                 </div>
-                                <button className="text-[10px] uppercase tracking-widest font-bold text-indigo-600 border-b border-indigo-100 pb-1 hover:text-indigo-400 transition-colors">Write Review</button>
+                                <button
+                                    onClick={() => setShowReviewForm(!showReviewForm)}
+                                    className="text-[10px] uppercase tracking-widest font-bold text-indigo-600 border-b border-indigo-100 pb-1 hover:text-indigo-400 transition-colors"
+                                >
+                                    {showReviewForm ? 'Cancel' : 'Write Review'}
+                                </button>
                             </div>
 
+                            {showReviewForm && (
+                                <form onSubmit={handleReviewSubmit} className="mb-16 p-8 bg-slate-50 rounded-[2rem] space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] uppercase tracking-widest font-bold text-slate-900">Your Name</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={newReview.name}
+                                                onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
+                                                className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                                                placeholder="Enter your name"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] uppercase tracking-widest font-bold text-slate-900">Rating</label>
+                                            <div className="flex gap-2 h-full items-center">
+                                                {[1, 2, 3, 4, 5].map(star => (
+                                                    <button
+                                                        key={star}
+                                                        type="button"
+                                                        onClick={() => setNewReview({ ...newReview, rating: star })}
+                                                        className={`transition-colors ${star <= newReview.rating ? 'text-amber-400' : 'text-slate-200'}`}
+                                                    >
+                                                        <Star size={24} className={star <= newReview.rating ? 'fill-current' : ''} />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] uppercase tracking-widest font-bold text-slate-900">Your Experience</label>
+                                        <textarea
+                                            required
+                                            value={newReview.comment}
+                                            onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+                                            className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 text-sm h-32 focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none"
+                                            placeholder="Share your thoughts on this aesthetic piece..."
+                                        ></textarea>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-600 transition-all active:scale-[0.98]"
+                                    >
+                                        Publish Review
+                                    </button>
+                                </form>
+                            )}
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                                {[
-                                    {
-                                        n: 'Alistair Sterling',
-                                        r: 5,
-                                        t: 'The Night Obsidian finish is even more deep in person. It defines my study perfectly.',
-                                        d: 'Nov 18, 202fs',
-                                        p: 'London, UK'
-                                    },
-                                    {
-                                        n: 'Elena Vance',
-                                        r: 5,
-                                        t: 'Incredible structural presence. Shipping was fast and the assembly team was professional.',
-                                        d: 'Oct 04, 2025',
-                                        p: 'NYC, USA'
-                                    }
-                                ].map((rev, i) => (
-                                    <div key={i} className="p-10 bg-slate-50 rounded-[2.5rem] space-y-8 relative overflow-hidden group hover:bg-white hover:shadow-xl transition-all duration-700">
+                                {reviews.length > 0 ? reviews.map((rev, i) => (
+                                    <div key={rev.id || i} className="p-10 bg-slate-50 rounded-[2.5rem] space-y-8 relative overflow-hidden group hover:bg-white hover:shadow-xl transition-all duration-700">
                                         <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
                                             <MessageSquare size={60} />
                                         </div>
                                         <div className="flex justify-between items-start relative z-10">
                                             <div className="space-y-1">
-                                                <p className="font-bold text-sm text-slate-900">{rev.n}</p>
+                                                <p className="font-bold text-sm text-slate-900">{rev.customer_name}</p>
                                                 <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold flex items-center gap-2">
-                                                    <Calendar size={10} /> {rev.d} &bull; {rev.p}
+                                                    <Calendar size={10} /> {new Date(rev.created_at).toLocaleDateString()}
                                                 </p>
                                             </div>
                                             <div className="flex text-amber-400 gap-0.5">
-                                                {[...Array(rev.r)].map((_, i) => <Star key={i} size={12} className="fill-current" />)}
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Star key={i} size={12} className={i < rev.rating ? 'fill-current' : 'text-slate-200'} />
+                                                ))}
                                             </div>
                                         </div>
-                                        <p className="text-sm font-light text-slate-600 leading-relaxed italic relative z-10 font-serif">"{rev.t}"</p>
+                                        <p className="text-sm font-light text-slate-600 leading-relaxed italic relative z-10 font-serif">"{rev.comment}"</p>
                                     </div>
-                                ))}
+                                )) : (
+                                    <div className="col-span-full py-20 text-center bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-100">
+                                        <p className="text-slate-400 italic">No feedback yet. Be the first to share your experience.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

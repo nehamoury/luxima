@@ -1,20 +1,70 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# LuxeHome E-Commerce Database - ER Diagram
 
-# Run and deploy your AI Studio app
+> [!NOTE] 
+> Below is the visual representation of the Entity-Relationship (ER) Diagram designed for the Luxima platform, demonstrating the connections between Products, Users, and Orders as referenced in the theoretical background.
 
-This contains everything you need to run your app locally.
+```mermaid
+erDiagram
+    %% Entities and their attributes
 
-View your app in AI Studio: https://ai.studio/apps/drive/1u2sLOIZf2eUZX0N-XW8TZSDSfcQNVQxe
+    USERS {
+        int id PK
+        string name
+        string email
+        string password
+        string role
+        datetime created_at
+    }
 
-## Run Locally
+    PRODUCTS {
+        int id PK
+        string name
+        int price
+        string category
+        text image
+        text description
+        int rating
+        int stock
+        datetime created_at
+    }
 
-**Prerequisites:**  Node.js
+    ORDERS {
+        int id PK
+        string customer FK
+        int total
+        string status
+        json items
+        date order_date
+    }
 
+    REVIEWS {
+        int id PK
+        int product_id FK
+        string user_name
+        int rating
+        text comment
+        datetime timestamp
+    }
+    
+    COUPONS {
+        int id PK
+        string code
+        int discount
+        date expiry_date
+        int min_purchase
+    }
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+    %% Relationships
+    USERS ||--o{ ORDERS : "Places"
+    PRODUCTS ||--o{ REVIEWS : "Receives"
+    ORDERS }|--|{ PRODUCTS : "Contains (via json items)"
+    ORDERS }o--o| COUPONS : "Applies"
+
+```
+
+## Key Entities and Relationships
+
+1. **USERS**: The core entity representing registered customers and administrators. A User can place multiple **ORDERS** (1-to-Many).
+2. **PRODUCTS**: Represents the premium inventory available. A Product can contain multiple **REVIEWS** (1-to-Many), and can be part of many **ORDERS**.
+3. **ORDERS**: The transactional entity that links **USERS** with the items they purchased. Order items are stored efficiently in a JSON format referring back to **PRODUCTS**.
+4. **COUPONS**: A secondary entity applied to **ORDERS** to provide promotional discounts based on conditions.

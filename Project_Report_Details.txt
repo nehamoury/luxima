@@ -71,3 +71,287 @@ that promotional risks are minimized and discounts are applied only when valid.
     directly from the platform, while the virtual review-history database helps 
     with the follow-up process and improvement of the inventory based on direct 
     patron feedback.
+
+    __________________________________________________________________________________
+
+    SCOPE OF THE PROJECT
+    ____________________
+
+    The scope of the project includes that what all future enhancements can be done in this 
+    system to make it more feasible to use :
+
+    * Databases for an extensive range of premium home decor products and real-time 
+      inventory storage can be provided.
+    * Multilingual support can be expanded (beyond English and Hindi) so that it can be 
+      understandable by a person of any language.
+    * More interactive graphics (such as 3D product previews) can be added to make it 
+      more user-friendly and aesthetically pleasing.
+    * Manage and backup versions of documents, user order histories, and invoices 
+      online effectively.
+
+    Scope creep management is important for effective project management. Projects are 
+    expected to meet strict deadlines with resource restraints, and an unvetted and 
+    unapproved change in the scope can affect the success of the project. Scope creep 
+    sometimes causes cost overrun.
+
+    Scope creep is a term which refers to the incremental expansion of the scope of a 
+    project, which may include and introduce more requirements that may not have been a 
+    part of the initial planning of the project, while nevertheless failing to adjust schedule 
+    and budget. There are two distinct ways to separate scope creep management. The 
+    first is business scope creep, and the second is called features (also technology) 
+    scope creep. The type of scope creep management is always dependent on the people 
+    who create the changes.
+
+    Business scope creep occurs when decisions that are made with reference to a project 
+    are designed to solve or meet the requirements and needs of the business. Business 
+    scope creep changes may be a result of poor requirements definition early in 
+    development, or the failure to include the users of the project until the later stage of 
+    the systems development life cycle. Management system. Items deemed out of scope 
+    go directly through the change control process and are not automatically added to the 
+    project work items. The Project Scope Management plan is included in as one of the 
+    sections in the overall Project Management plan. It can be very detailed and formal or 
+    loosely framed and informal depending on the communication needs of the project.
+
+    Features (also technology) scope creep, often referred to as "gold-plating," occurs 
+    when project team members or developers add features and functions to the system 
+    that were not part of the initial requirements. This type of scope creep is typically 
+    driven by the desire to implement the latest technologies, make the system overly 
+    complex, or add unrequested features without explicit approval from stakeholders. 
+    In the context of the Luxima e-commerce system, this could involve adding unapproved 
+    third-party integrations or unnecessarily complex technical features, which invariably 
+    consume additional resources, extend development timelines, and fail to address the 
+    core business needs.
+
+    __________________________________________________________________________________
+
+    THEORETICAL BACKGROUND OF THE PROJECT
+    _____________________________________
+
+    FRONT END (React.js)
+
+    React is a declarative, efficient, and flexible JavaScript library for building 
+    user interfaces. It lets you compose complex UIs from small and isolated pieces of 
+    code called "components." React's high-level built-in data structures and component-
+    based architecture, combined with dynamic state management, make it very attractive 
+    for Rapid Application Development and building visually rich, interactive web 
+    applications. React's simple, easy-to-learn declarative syntax emphasizes readability 
+    and therefore reduces the cost of program maintenance. React supports component 
+    reusability, which encourages program modularity and reduces code duplication. 
+    The React library and its extensive ecosystem are available as open-source packages 
+    for all major platforms and can be freely distributed.
+
+    Often, programmers fall in love with React because of the increased productivity 
+    it provides. Since it utilizes a Virtual DOM, the edit-test-debug cycle and the 
+    actual rendering speed are incredibly fast. Debugging React applications is easy 
+    thanks to tools like React Developer Tools, which allow inspection of component 
+    hierarchies, state, and props in real-time. When an error occurs, React provides 
+    clear error boundaries and stack traces to isolate issues without crashing the 
+    entire application. On the other hand, the fast hot-reloading feature makes the 
+    simple approach of adding a few console log statements very effective for debugging.
+
+    BACK END (Node.js & PostgreSQL)
+
+    Databases and server environments are the essential data repository and logic 
+    handlers for all modern software applications. For example, whenever someone conducts 
+    a product search, logs into a customer account, or completes a transaction on Luxima, 
+    the backend system processes the request and stores the information in the database 
+    so it can be accessed in the future.
+
+    A relational database (PostgreSQL) stores data in separate tables rather than putting 
+    all the data in one big storeroom. The database structure is organized into physical 
+    files optimized for speed and reliability. The logical data model, with objects such 
+    as data tables, views, rows, and columns, offers a flexible programming environment. 
+    You set up rules governing the relationships between different data fields, such as 
+    one-to-one, one-to-many, unique, required, or optional constraints, and "foreign keys" 
+    between different tables. The PostgreSQL database enforces these strict ACID rules so 
+    that, with a well-designed database, your application never sees data that's 
+    inconsistent, duplicated, orphaned, out of date, or missing.
+
+    The "SQL" in PostgreSQL stands for "Structured Query Language." SQL is the most 
+    common standardized language used to access and manipulate relational databases. 
+    Depending on the programming environment (like Node.js & Express), you might use SQL 
+    directly to generate reports, or use an ORM/Query Builder that hides the complex SQL 
+    syntax while interacting securely with the database. Node.js with Express handles the 
+    routing and API requests, acting as the bridge between the React frontend and the 
+    PostgreSQL database.
+
+    PostgreSQL and Node.js are open source: Open source means it's possible for anyone 
+    to use and modify the software. Anybody can download these software technologies 
+    from the internet and use them for enterprise-level projects without paying for 
+    licensing fees.
+
+    __________________________________________________________________________________
+
+    DEFINITION OF PROBLEM
+    _____________________
+
+    As we know, manual systems are quite tedious, time-consuming, and less efficient 
+    and accurate in comparison to computerized systems. Managing premium inventory, 
+    daily sales, and customer feedback manually can lead to numerous challenges. 
+    So following are some disadvantages (limitations) of the old manual system:
+
+    1. Time-consuming
+    2. Less accurate
+    3. Less efficient
+    4. Lots of paper work
+    5. Slow data processing
+    6. Not user friendly environment
+    7. Difficult to keep old records
+    8. Paper Work (Redundancy)
+
+    __________________________________________________________________________________
+
+    SYSTEM ANALYSIS AND DESIGN
+    __________________________
+
+    FEASIBILITY STUDY:-
+
+    An initial investigation terminates in a proposal that determines whether an 
+    alternative system is feasible. Feasibility study can be categorized into three major 
+    parts: -
+
+    (1) TECHNICAL FEASIBILITY:-
+
+        * The proposed Luxima system has the technical capacity required to securely 
+          hold data using PostgreSQL.
+        * This project is efficient and responds quickly to various user inquiries and 
+          orders using React.js and Node.js.
+        * The system proposed could be expanded easily and efficiently, horizontally 
+          or vertically, whenever required.
+
+    (2) OPERATING FEASIBILITY STUDY:-
+
+        The management has fully supported us in bringing up the project, and the data 
+        security in this project is provided by setting up a robust authentication 
+        procedure (e.g., JWT) so that only authorized users or administrators can 
+        access sensitive system routes and dashboard features.
+
+    (3) OUR PROJECT IS ECONOMICALLY FEASIBLE AS:-
+
+        * It replaces manual records with computerized data management, reducing paperwork 
+          to a large extent.
+        * With the help of this project, a single automated system is now available to 
+          do the backend processing tasks of 5 to 7 persons.
+        * Due to the processing speed of modern web technologies, we can extract desired 
+          information (e.g., sales analytics via Recharts) in a fraction of a second.
+
+    __________________________________________________________________________________
+
+    COST AND BENEFIT ANALYSIS
+    _________________________
+
+    Cost and Benefit Categories
+    In developing cost estimates for a system like Luxima, we need to consider several 
+    cost elements. Among them are hardware/server, personnel, facility, operating, and 
+    supply costs.
+
+    1. Hardware & Server Costs relate to the actual purchase, lease, or cloud hosting 
+       of the computer servers and database (e.g., Neon PostgreSQL). Determining the 
+       actual cost of hardware/hosting is generally more difficult when the system 
+       resources scale dynamically based on user traffic. In some cases, the best way 
+       to control this cost is to treat it as an operating cost through a predictable 
+       cloud subscription.
+
+    2. Personnel Costs include developer salaries, UI/UX designers, and IT staff 
+       benefits, as well as pay for those involved in developing and maintaining the 
+       e-commerce system.
+
+    3. Facility Costs are expenses incurred in the preparation of the physical site 
+       where the organization operates or where initial development took place. For 
+       cloud-based projects, this also covers initial one-time setup costs like domain 
+       registration, SSL certificates, and CI/CD pipeline setup. These costs are 
+       treated as one-time costs and incorporated into the overall cost estimate of 
+       the developed system.
+
+    4. Operating Costs include all costs associated with the day-to-day operation of 
+       the system. The amount depends on the server load, the nature of the application, 
+       and the caliber of the operating staff. There are various ways of covering 
+       operating costs; one approach is to treat operating costs as overhead. Another 
+       approach is to scale costs based on the volume of output produced, processing 
+       speed required, and backend storage used. In any case, some accounting is 
+       necessary to determine how operating costs should be handled.
+
+    5. Supply Costs are variable costs that increase with the increased use of physical 
+       marketing materials, backup hard disks, or third-party digital subscriptions 
+       (e.g., email notification services, payment gateway fees) and the like. They 
+       should be estimated and included in the overall cost of the system.
+
+    __________________________________________________________________________________
+
+    DETAILED LIFE CYCLE OF THE PROJECT
+    __________________________________
+
+    All stages of a software process status quo, problem definition, technical 
+    development, and solution integration coexist simultaneously at some level of detail. 
+    Design and analysis. Information engineering encompasses requirements gathering at 
+    the strategic business level and at the business area level.
+
+    Software requirements analysis. The requirements gathering process is intensified 
+    and focused specifically on software. To understand the nature of the program(s) to be 
+    built, the software engineer ('analyst') must understand the information domain 
+    for the software, as well as required function, behavior, performance, and interface. 
+    Requirements for both the system and the software are documented 
+    and reviewed with the customer.
+
+    Design. Software design is actually a multiuse process that focuses on four distinct 
+    attributes of a program: data structure, software architecture, interface representations, 
+    and procedural (algorithmic) detail. The design process translates requirements into a 
+    representation of the software that can be assessed for quality before coding begins. 
+    Like requirements, the design is documented and becomes part of the software 
+    configuration.
+
+    Code generation. The design must be translated into a machine-readable form. The 
+    code generation step performs this task. If design is performed in a detailed 
+    manner, code generation can be accomplished mechanistically.
+
+    Testing. Once code has been generated, program testing begins. The testing process 
+    focuses on the logical internals of the software, ensuring that all statements have been 
+    tested, and on the functional externals; that is, conducting tests to uncover errors and 
+    ensure that defined input will produce actual results that agree with required results.
+
+    Implementation. Software will undoubtedly undergo change after it is delivered to 
+    the customer (a possible exception is embedded software). Change will occur because 
+    errors have been encountered, because the software must be adapted to accommodate 
+    changes in its external environment (e.g., a change required because of a new 
+    operating system or peripheral device), or because the customer requires functional or 
+    performance enhancements. Software support/maintenance reapplies each of the 
+    preceding phases to an existing program rather than a new one.
+
+    __________________________________________________________________________________
+
+    E-R DIAGRAM
+    ___________
+
+    Conceptual ERD Symbols
+    These symbols are generally used for conceptual data models, although some aspects 
+    may spill over into logical data models. They can be found in the UML Entity 
+    Relationship and Entity Relationship shape library of Lucidchart. If you don't see the 
+    shape you need, use an image file (Lucidchart supports .PNG, .JPG, or .SVG import) 
+    or create your own with existing shapes and styling options.
+
+    ENTITIES
+    Entities are objects or concepts that represent important data. They are typically 
+    nouns, e.g., customer, supervisor, location, or promotion.
+    Strong entities exist independently from other entity types. They always possess one 
+    or more attributes that uniquely distinguish each occurrence of the entity.
+
+    Weak entities depend on some other entity type. They don't possess unique attributes 
+    (also known as a primary key) and have no meaning in the diagram without depending 
+    on another entity. This other entity is known as the owner.
+    Associative entities are entities that associate the instances of one or more entity 
+    types. They also contain attributes that are unique to the relationship between those 
+    entity instances.
+
+    RELATIONSHIPS
+    Relationships are meaningful associations between or among entities. They are 
+    usually verbs, e.g., assign, associate, or track. A relationship provides useful information 
+    that could not be discerned with just the entity types.
+    Weak relationships, or identifying relationships, are connections that exist between a 
+    weak entity type and its owner.
+
+    ATTRIBUTES
+    Attributes are characteristics of either an entity, a many-to-many relationship, or a 
+    one-to-one relationship.
+    Multivalued attributes are those that are capable of taking on more than one value.
+    Derived attributes are attributes whose value can be calculated from related attribute 
+    values.

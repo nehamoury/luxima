@@ -1,133 +1,70 @@
 # LuxeHome E-Commerce Database - ER Diagram
 
-## Entity-Relationship Diagram
+> [!NOTE] 
+> Below is the visual representation of the Entity-Relationship (ER) Diagram designed for the Luxima platform, demonstrating the connections between Products, Users, and Orders as referenced in the theoretical background.
+
+```mermaid
+erDiagram
+    %% Entities and their attributes
+
+    USERS {
+        int id PK
+        string name
+        string email
+        string password
+        string role
+        datetime created_at
+    }
+
+    PRODUCTS {
+        int id PK
+        string name
+        int price
+        string category
+        text image
+        text description
+        int rating
+        int stock
+        datetime created_at
+    }
+
+    ORDERS {
+        int id PK
+        string customer FK
+        int total
+        string status
+        json items
+        date order_date
+    }
+
+    REVIEWS {
+        int id PK
+        int product_id FK
+        string user_name
+        int rating
+        text comment
+        datetime timestamp
+    }
+    
+    COUPONS {
+        int id PK
+        string code
+        int discount
+        date expiry_date
+        int min_purchase
+    }
+
+    %% Relationships
+    USERS ||--o{ ORDERS : "Places"
+    PRODUCTS ||--o{ REVIEWS : "Receives"
+    ORDERS }|--|{ PRODUCTS : "Contains (via json items)"
+    ORDERS }o--o| COUPONS : "Applies"
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                          LUXEHOME DATABASE ER DIAGRAM                       │
-└─────────────────────────────────────────────────────────────────────────────┘
 
-    ┌──────────────────────┐          ┌──────────────────────┐
-    │       PRODUCTS       │          │        USERS         │
-    ├──────────────────────┤          ├──────────────────────┤
-    │ id (PK)      SERIAL  │          │ id (PK)      SERIAL  │
-    │ name         VARCHAR │          │ name         VARCHAR │
-    │ price        INTEGER │          │ email        VARCHAR │──┐
-    │ category     VARCHAR │          │ password     VARCHAR │  │
-    │ image        TEXT    │          │ role        VARCHAR  │  │
-    │ description  TEXT    │          │ created_at   TIMESTAMP│  │
-    │ rating       INTEGER │          └──────────────────────┘  │
-    │ stock        INTEGER │                                      │
-    │ created_at   TIMESTAMP│         1:N (User → Orders)        │
-    └──────────────────────┘           └──────────────────────────┘
-                                        │
-                                        │
-                                        ▼
-    ┌──────────────────────────────────────────────────────────────┐
-    │                           ORDERS                              │
-    ├──────────────────────────────────────────────────────────────┤
-    │ id (PK)       SERIAL                                         │
-    │ customer      VARCHAR (references users.email)                │
-    │ total         INTEGER                                        │
-    │ status        VARCHAR                                        │
-    │ items         JSONB (Array of product references)            │
-                                              │
-    └ │ date          DATE──┘
-────────────────────────────────────────────────────────────                                    │
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │    ORDER ITEMS        │
-                         │    (JSONB Format)     │
-                         ├──────────────────────┤
-                         │ - product_id          │
-                         │ - product_name        │
-                         │ - quantity            │
-                         │ - price               │
-                         │ - image               │
-                         └──────────────────────┘
+## Key Entities and Relationships
 
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              RELATIONSHIPS                                   │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-    USERS (1) ──────────◄──────────── (N) ORDERS
-    │
-    │  - One user can have multiple orders
-    │  - One order belongs to one user (via customer email)
-    │
-    ▼
-
-    PRODUCTS (N) ────────◄─────────── (N) ORDERS
-    │
-    │  - Many products can be in many orders
-    │  - Stored as JSONB in order items column
-    │
-
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           TABLE SCHEMA SUMMARY                              │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────┬──────────────┬────────────────────────────────────────────────┐
-│   TABLE     │    TYPE      │                    FIELDS                      │
-├─────────────┼──────────────┼────────────────────────────────────────────────┤
-│  products   │   Main       │ id, name, price, category, image, description, │
-│             │   Entity     │ rating, stock, created_at                      │
-├─────────────┼──────────────┼────────────────────────────────────────────────┤
-│  users      │   Entity     │ id, name, email, password, role, created_at   │
-├─────────────┼──────────────┼────────────────────────────────────────────────┤
-│  orders     │   Entity     │ id, customer, total, status, items, date      │
-└─────────────┴──────────────┴────────────────────────────────────────────────┘
-
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           DATA FLOW DIAGRAM                                  │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-    ┌──────────┐     POST      ┌──────────┐     INSERT     ┌──────────┐
-    │  Client  │ ──────────────▶│  Server  │ ──────────────▶│ Database │
-    │(React)   │                │(Express) │                │ (PG)     │
-    └──────────┘                └──────────┘                └──────────┘
-         │                           │                           │
-         │ GET /products             │ SELECT * FROM products   │
-         │◀──────────────────────────│◀──────────────────────────┤
-         │                           │                           │
-         │ POST /users (signup)      │ INSERT INTO users         │
-         │◀──────────────────────────│◀──────────────────────────┤
-         │                           │                           │
-         │ POST /orders              │ INSERT INTO orders        │
-         │◀──────────────────────────│◀──────────────────────────┤
-
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           ATTRIBUTE DETAILS                                  │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-PRODUCTS:
-  - id         : Primary Key, Auto-increment
-  - name       : Product name (required)
-  - price      : Price in integer (required)
-  - category   : Product category (required)
-  - image      : Image URL (required)
-  - description: Product description (optional)
-  - rating     : Rating out of 5 (default: 5)
-  - stock      : Available stock (default: 10)
-  - created_at : Timestamp of creation
-
-USERS:
-  - id         : Primary Key, Auto-increment
-  - name       : User's full name (required)
-  - email      : Unique email address (required)
-  - password   : User's password (required)
-  - role       : User role - 'user' or 'admin' (default: 'user')
-  - created_at : Timestamp of registration
-
-ORDERS:
-  - id         : Primary Key, Auto-increment
-  - customer   : Customer email (foreign key to users)
-  - total      : Total order amount
-  - status     : Order status (default: 'Processing')
-  - items      : JSON array of ordered products
-  - date       : Order date
+1. **USERS**: The core entity representing registered customers and administrators. A User can place multiple **ORDERS** (1-to-Many).
+2. **PRODUCTS**: Represents the premium inventory available. A Product can contain multiple **REVIEWS** (1-to-Many), and can be part of many **ORDERS**.
+3. **ORDERS**: The transactional entity that links **USERS** with the items they purchased. Order items are stored efficiently in a JSON format referring back to **PRODUCTS**.
+4. **COUPONS**: A secondary entity applied to **ORDERS** to provide promotional discounts based on conditions.

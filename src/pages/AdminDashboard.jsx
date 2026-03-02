@@ -22,7 +22,14 @@ import {
     X,
     Pencil,
     RefreshCcw,
-    Check
+    Check,
+    LogOut,
+    Store,
+    Mail,
+    Shield,
+    Globe,
+    Save,
+    AlertTriangle
 } from 'lucide-react';
 import {
     AreaChart,
@@ -45,13 +52,35 @@ const PRESET_IMAGES = [
     { name: 'Office Desk', url: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&q=80&w=800' }
 ];
 
-const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct, orders = [], onUpdateOrder }) => {
+const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct, orders = [], onUpdateOrder, user, onLogout }) => {
     const [activeView, setActiveView] = useState('overview');
     const [isAddProductOpen, setIsAddProductOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
-    const [isDarkMode, setIsDarkMode] = useState(false); // Default to light mode for now
+    const [isDarkMode, setIsDarkMode] = useState(false);
     const [realCustomers, setRealCustomers] = useState([]);
+    const [settingsSaved, setSettingsSaved] = useState(false);
+    const [storeSettings, setStoreSettings] = useState(() => {
+        const saved = localStorage.getItem('luxehome-admin-settings');
+        try { return saved ? JSON.parse(saved) : {}; } catch { return {}; }
+    });
+    const [storeName, setStoreName] = useState(storeSettings.storeName || 'LuxeHomé');
+    const [storeEmail, setStoreEmail] = useState(storeSettings.storeEmail || 'admin@luxehome.com');
+    const [storeCurrency, setStoreCurrency] = useState(storeSettings.storeCurrency || 'INR');
+    const [storeTimezone, setStoreTimezone] = useState(storeSettings.storeTimezone || 'Asia/Kolkata');
+    const [notifyOrders, setNotifyOrders] = useState(storeSettings.notifyOrders !== false);
+    const [notifyStock, setNotifyStock] = useState(storeSettings.notifyStock !== false);
+    const [notifyNewUsers, setNotifyNewUsers] = useState(storeSettings.notifyNewUsers !== false);
+    const [autoConfirmOrders, setAutoConfirmOrders] = useState(storeSettings.autoConfirmOrders || false);
+    const [lowStockThreshold, setLowStockThreshold] = useState(storeSettings.lowStockThreshold || 5);
+
+    const handleSaveSettings = () => {
+        const settings = { storeName, storeEmail, storeCurrency, storeTimezone, notifyOrders, notifyStock, notifyNewUsers, autoConfirmOrders, lowStockThreshold };
+        localStorage.setItem('luxehome-admin-settings', JSON.stringify(settings));
+        setStoreSettings(settings);
+        setSettingsSaved(true);
+        setTimeout(() => setSettingsSaved(false), 2500);
+    };
 
     // Derived Chart Data (Last 7 days revenue)
     const chartData = useMemo(() => {
@@ -240,6 +269,13 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                 >
                     {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </button>
+                <button
+                    onClick={onLogout}
+                    className="p-3 rounded-xl transition-all text-slate-400 hover:text-rose-500 hover:bg-rose-50"
+                    title="Logout"
+                >
+                    <LogOut className="w-5 h-5" />
+                </button>
             </div>
 
             {/* Sidebar */}
@@ -279,12 +315,19 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                 </div>
 
                 <div className="p-4 border-t border-white/10">
-                    <div className="bg-white/5 rounded-xl p-4 flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-white">AD</div>
-                        <div>
-                            <p className="text-sm font-bold text-white">Administrator</p>
-                            <p className="text-[10px] text-slate-400">admin@luxehome.com</p>
+                    <div className="bg-white/5 rounded-xl p-4 flex items-center justify-between gap-3 group">
+                        <div className="flex items-center gap-3 overflow-hidden">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex-shrink-0 flex items-center justify-center font-bold text-white">
+                                {user?.name ? user.name.substring(0, 2).toUpperCase() : 'AD'}
+                            </div>
+                            <div className="overflow-hidden">
+                                <p className="text-sm font-bold text-white truncate">{user?.name || 'Administrator'}</p>
+                                <p className="text-[10px] text-slate-400 truncate">{user?.email || 'admin@luxehome.com'}</p>
+                            </div>
                         </div>
+                        <button onClick={onLogout} className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-400/10 rounded-lg transition-colors flex-shrink-0" title="Logout">
+                            <LogOut className="w-4 h-4" />
+                        </button>
                     </div>
                 </div>
             </aside>
@@ -600,6 +643,218 @@ const AdminDashboard = ({ products, onAddProduct, onDeleteProduct, onEditProduct
                                     {realCustomers.length === 0 && <tr><td colSpan="5" className={`p-12 text-center italic ${theme.subText}`}>Loading users or none found...</td></tr>}
                                 </tbody>
                             </table>
+                        </div>
+                    )}
+
+                    {activeView === 'settings' && (
+                        <div className="space-y-8 max-w-3xl">
+                            {/* Save Success Toast */}
+                            {settingsSaved && (
+                                <div className="fixed top-20 right-8 z-50 bg-emerald-500 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-right duration-300">
+                                    <CheckCircle className="w-5 h-5" />
+                                    <span className="font-bold text-sm">Settings saved successfully!</span>
+                                </div>
+                            )}
+
+                            {/* Store Information */}
+                            <div className={`${theme.cardBg} rounded-2xl border ${theme.cardBorder} shadow-sm overflow-hidden transition-colors duration-300`}>
+                                <div className={`p-6 border-b ${theme.cardBorder} flex items-center gap-3`}>
+                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-indigo-500/10 text-indigo-400' : 'bg-indigo-50 text-indigo-600'}`}>
+                                        <Store className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className={`font-bold text-lg ${theme.text}`}>Store Information</h3>
+                                        <p className={`text-xs ${theme.subText}`}>Basic store configuration</p>
+                                    </div>
+                                </div>
+                                <div className="p-6 space-y-5">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        <div className="space-y-2">
+                                            <label className={`text-xs font-bold uppercase tracking-widest ${theme.subText}`}>Store Name</label>
+                                            <input
+                                                value={storeName}
+                                                onChange={e => setStoreName(e.target.value)}
+                                                className={`w-full ${theme.inputBg} border ${theme.inputBorder} rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-sm ${theme.text}`}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className={`text-xs font-bold uppercase tracking-widest ${theme.subText}`}>Contact Email</label>
+                                            <input
+                                                type="email"
+                                                value={storeEmail}
+                                                onChange={e => setStoreEmail(e.target.value)}
+                                                className={`w-full ${theme.inputBg} border ${theme.inputBorder} rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-sm ${theme.text}`}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        <div className="space-y-2">
+                                            <label className={`text-xs font-bold uppercase tracking-widest ${theme.subText}`}>Currency</label>
+                                            <select
+                                                value={storeCurrency}
+                                                onChange={e => setStoreCurrency(e.target.value)}
+                                                className={`w-full ${theme.inputBg} border ${theme.inputBorder} rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-sm appearance-none ${theme.text}`}
+                                            >
+                                                <option value="INR">₹ INR - Indian Rupee</option>
+                                                <option value="USD">$ USD - US Dollar</option>
+                                                <option value="EUR">€ EUR - Euro</option>
+                                                <option value="GBP">£ GBP - British Pound</option>
+                                            </select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className={`text-xs font-bold uppercase tracking-widest ${theme.subText}`}>Timezone</label>
+                                            <select
+                                                value={storeTimezone}
+                                                onChange={e => setStoreTimezone(e.target.value)}
+                                                className={`w-full ${theme.inputBg} border ${theme.inputBorder} rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-sm appearance-none ${theme.text}`}
+                                            >
+                                                <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+                                                <option value="America/New_York">America/New York (EST)</option>
+                                                <option value="Europe/London">Europe/London (GMT)</option>
+                                                <option value="Asia/Dubai">Asia/Dubai (GST)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Notification Preferences */}
+                            <div className={`${theme.cardBg} rounded-2xl border ${theme.cardBorder} shadow-sm overflow-hidden transition-colors duration-300`}>
+                                <div className={`p-6 border-b ${theme.cardBorder} flex items-center gap-3`}>
+                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-amber-500/10 text-amber-400' : 'bg-amber-50 text-amber-600'}`}>
+                                        <Bell className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className={`font-bold text-lg ${theme.text}`}>Notification Preferences</h3>
+                                        <p className={`text-xs ${theme.subText}`}>Control which alerts you receive</p>
+                                    </div>
+                                </div>
+                                <div className="p-6 space-y-4">
+                                    {[
+                                        { label: 'New Order Alerts', desc: 'Get notified when a new order is placed', value: notifyOrders, setter: setNotifyOrders, icon: ShoppingCart },
+                                        { label: 'Low Stock Warnings', desc: 'Alert when product stock falls below threshold', value: notifyStock, setter: setNotifyStock, icon: Package },
+                                        { label: 'New User Registrations', desc: 'Notify when a new customer signs up', value: notifyNewUsers, setter: setNotifyNewUsers, icon: Users },
+                                    ].map((item, i) => (
+                                        <div key={i} className={`flex items-center justify-between p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-slate-50/80'} transition-colors`}>
+                                            <div className="flex items-center gap-4">
+                                                <item.icon className={`w-5 h-5 ${theme.subText}`} />
+                                                <div>
+                                                    <p className={`text-sm font-bold ${theme.text}`}>{item.label}</p>
+                                                    <p className={`text-xs ${theme.subText}`}>{item.desc}</p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={() => item.setter(!item.value)}
+                                                className={`w-12 h-7 rounded-full transition-all duration-300 relative flex-shrink-0 ${item.value ? 'bg-indigo-500' : isDarkMode ? 'bg-slate-700' : 'bg-slate-200'}`}
+                                            >
+                                                <div className={`w-5 h-5 bg-white rounded-full shadow-md absolute top-1 transition-all duration-300 ${item.value ? 'left-6' : 'left-1'}`} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Order Settings */}
+                            <div className={`${theme.cardBg} rounded-2xl border ${theme.cardBorder} shadow-sm overflow-hidden transition-colors duration-300`}>
+                                <div className={`p-6 border-b ${theme.cardBorder} flex items-center gap-3`}>
+                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-600'}`}>
+                                        <Shield className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className={`font-bold text-lg ${theme.text}`}>Order Settings</h3>
+                                        <p className={`text-xs ${theme.subText}`}>Configure order management behavior</p>
+                                    </div>
+                                </div>
+                                <div className="p-6 space-y-5">
+                                    <div className={`flex items-center justify-between p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-slate-50/80'}`}>
+                                        <div>
+                                            <p className={`text-sm font-bold ${theme.text}`}>Auto-Confirm Orders</p>
+                                            <p className={`text-xs ${theme.subText}`}>Automatically confirm orders without manual review</p>
+                                        </div>
+                                        <button
+                                            onClick={() => setAutoConfirmOrders(!autoConfirmOrders)}
+                                            className={`w-12 h-7 rounded-full transition-all duration-300 relative flex-shrink-0 ${autoConfirmOrders ? 'bg-indigo-500' : isDarkMode ? 'bg-slate-700' : 'bg-slate-200'}`}
+                                        >
+                                            <div className={`w-5 h-5 bg-white rounded-full shadow-md absolute top-1 transition-all duration-300 ${autoConfirmOrders ? 'left-6' : 'left-1'}`} />
+                                        </button>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className={`text-xs font-bold uppercase tracking-widest ${theme.subText}`}>Low Stock Threshold</label>
+                                        <div className="flex items-center gap-4">
+                                            <input
+                                                type="range"
+                                                min="1"
+                                                max="50"
+                                                value={lowStockThreshold}
+                                                onChange={e => setLowStockThreshold(Number(e.target.value))}
+                                                className="flex-1 accent-indigo-500 h-2"
+                                            />
+                                            <span className={`text-sm font-bold w-12 text-center ${theme.text} ${theme.inputBg} border ${theme.inputBorder} rounded-lg py-2`}>{lowStockThreshold}</span>
+                                        </div>
+                                        <p className={`text-xs ${theme.subText}`}>Products with stock below this number will be flagged</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Danger Zone */}
+                            <div className={`rounded-2xl border-2 ${isDarkMode ? 'border-rose-900/50 bg-rose-950/20' : 'border-rose-100 bg-rose-50/30'} overflow-hidden transition-colors duration-300`}>
+                                <div className={`p-6 border-b ${isDarkMode ? 'border-rose-900/50' : 'border-rose-100'} flex items-center gap-3`}>
+                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-rose-500/10 text-rose-400' : 'bg-rose-50 text-rose-500'}`}>
+                                        <AlertTriangle className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className={`font-bold text-lg ${isDarkMode ? 'text-rose-300' : 'text-rose-700'}`}>Danger Zone</h3>
+                                        <p className={`text-xs ${isDarkMode ? 'text-rose-400/70' : 'text-rose-400'}`}>Irreversible actions - proceed with caution</p>
+                                    </div>
+                                </div>
+                                <div className="p-6 space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <p className={`text-sm font-bold ${isDarkMode ? 'text-rose-300' : 'text-rose-700'}`}>Clear All Orders</p>
+                                            <p className={`text-xs ${isDarkMode ? 'text-rose-400/70' : 'text-rose-400'}`}>Delete all order history permanently</p>
+                                        </div>
+                                        <button className={`px-4 py-2 rounded-xl text-xs font-bold border-2 transition-all ${isDarkMode ? 'border-rose-700 text-rose-400 hover:bg-rose-900/50' : 'border-rose-200 text-rose-500 hover:bg-rose-100'}`}>
+                                            Clear Orders
+                                        </button>
+                                    </div>
+                                    <div className={`h-px ${isDarkMode ? 'bg-rose-900/30' : 'bg-rose-100'}`} />
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <p className={`text-sm font-bold ${isDarkMode ? 'text-rose-300' : 'text-rose-700'}`}>Reset Store Settings</p>
+                                            <p className={`text-xs ${isDarkMode ? 'text-rose-400/70' : 'text-rose-400'}`}>Restore all settings to defaults</p>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                localStorage.removeItem('luxehome-admin-settings');
+                                                setStoreName('LuxeHomé');
+                                                setStoreEmail('admin@luxehome.com');
+                                                setStoreCurrency('INR');
+                                                setStoreTimezone('Asia/Kolkata');
+                                                setNotifyOrders(true);
+                                                setNotifyStock(true);
+                                                setNotifyNewUsers(true);
+                                                setAutoConfirmOrders(false);
+                                                setLowStockThreshold(5);
+                                                setSettingsSaved(true);
+                                                setTimeout(() => setSettingsSaved(false), 2500);
+                                            }}
+                                            className={`px-4 py-2 rounded-xl text-xs font-bold border-2 transition-all ${isDarkMode ? 'border-rose-700 text-rose-400 hover:bg-rose-900/50' : 'border-rose-200 text-rose-500 hover:bg-rose-100'}`}
+                                        >
+                                            Reset All
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Save Button */}
+                            <div className="flex justify-end pb-8">
+                                <button
+                                    onClick={handleSaveSettings}
+                                    className="bg-indigo-600 text-white px-8 py-3.5 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-95"
+                                >
+                                    <Save className="w-4 h-4" /> Save Settings
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

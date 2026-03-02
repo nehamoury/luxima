@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Filter, X, ShoppingCart, Star, ChevronDown, Heart, Search } from 'lucide-react';
 import { FALLBACK_IMAGE } from '../constants';
 
-const CollectionsPage = ({ products, onViewProduct }) => {
+const CollectionsPage = ({ products, onViewProduct, toggleWishlist, wishlist }) => {
     const [priceRange, setPriceRange] = useState({ min: '', max: '' });
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [sortBy, setSortBy] = useState('newest');
@@ -29,6 +29,11 @@ const CollectionsPage = ({ products, onViewProduct }) => {
             if (sortBy === 'newest') return b.id - a.id; // Assuming higher ID is newer
             return 0;
         });
+
+    // Check if product is in wishlist
+    const isInWishlist = (productId) => {
+        return wishlist && wishlist.some(item => item.id === productId);
+    };
 
     return (
         <div className="pt-32 pb-24 container mx-auto px-6 animate-in fade-in duration-700 min-h-screen">
@@ -123,6 +128,7 @@ const CollectionsPage = ({ products, onViewProduct }) => {
                         {filteredAndSortedProducts.length > 0 ? (
                             filteredAndSortedProducts.map((product) => {
                                 const discount = (product.id % 3 === 0) ? 10 : null;
+                                const inWishlist = isInWishlist(product.id);
                                 return (
                                     <div
                                         key={product.id}
@@ -181,10 +187,11 @@ const CollectionsPage = ({ products, onViewProduct }) => {
                                                         <ShoppingCart className="w-4 h-4" />
                                                     </button>
                                                     <button
-                                                        className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all shadow-sm active:scale-95"
-                                                        title="Add to Wishlist"
+                                                        onClick={() => toggleWishlist(product)}
+                                                        className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all shadow-sm active:scale-95 ${inWishlist ? 'bg-rose-500 text-white border-rose-500' : 'bg-rose-50 border border-rose-100 text-rose-500 hover:bg-rose-500 hover:text-white'}`}
+                                                        title={inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                                                     >
-                                                        <Heart className="w-4 h-4 fill-current" />
+                                                        <Heart className={`w-4 h-4 ${inWishlist ? 'fill-current' : ''}`} />
                                                     </button>
                                                 </div>
                                             </div>

@@ -32,6 +32,7 @@ import OurCraftPage from './pages/OurCraftPage';
 import HomePage from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProfilePage from './pages/ProfilePage';
+import WishlistPage from './pages/WishlistPage';
 
 const App = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
@@ -245,6 +246,8 @@ const App = () => {
                     onEditProduct={handleEditProduct}
                     orders={orders}
                     onUpdateOrder={handleUpdateOrder}
+                    user={user}
+                    onLogout={() => { setUser(null); navigate('/'); }}
                 />
             </div>
         );
@@ -407,6 +410,8 @@ const App = () => {
                         <CollectionsPage
                             products={filteredProducts}
                             onViewProduct={(p) => navigate(`/product/${p.id}`)}
+                            toggleWishlist={toggleWishlist}
+                            wishlist={wishlist}
                         />
                     } />
                     <Route path="/new-arrivals" element={
@@ -433,6 +438,17 @@ const App = () => {
                             user={user}
                             orders={orders}
                             onLogout={() => { setUser(null); navigate('/'); }}
+                            wishlist={wishlist}
+                            toggleWishlist={toggleWishlist}
+                            addToCart={addToCart}
+                        />
+                    } />
+                    <Route path="/wishlist" element={
+                        <WishlistPage
+                            wishlist={wishlist}
+                            toggleWishlist={toggleWishlist}
+                            addToCart={addToCart}
+                            onViewProduct={(p) => navigate(`/product/${p.id}`)}
                         />
                     } />
                     <Route path="/admin" element={
@@ -443,6 +459,8 @@ const App = () => {
                             onEditProduct={handleEditProduct}
                             orders={orders}
                             onUpdateOrder={handleUpdateOrder}
+                            user={user}
+                            onLogout={() => { setUser(null); navigate('/'); }}
                         />
                     } />
                 </Routes>

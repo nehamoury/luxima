@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { User, Package, MapPin, Settings, LogOut, ChevronRight, ShoppingBag, CreditCard, Shield, FileText } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { User, Package, MapPin, Settings, LogOut, ChevronRight, ShoppingBag, CreditCard, Shield, FileText, Heart, X } from 'lucide-react';
 import InvoiceView from '../components/InvoiceView';
+import { FALLBACK_IMAGE } from '../constants';
 
-const ProfilePage = ({ user, orders, onLogout }) => {
+const ProfilePage = ({ user, orders, onLogout, wishlist, toggleWishlist, addToCart }) => {
     const [activeTab, setActiveTab] = useState('orders');
     const [selectedInvoice, setSelectedInvoice] = useState(null);
 
@@ -54,8 +56,9 @@ const ProfilePage = ({ user, orders, onLogout }) => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
                     {/* Sidebar Nav */}
                     <aside className="lg:col-span-3 space-y-2">
-                        {[
+{[
                             { id: 'orders', label: 'Order History', icon: Package },
+                            { id: 'wishlist', label: 'My Wishlist', icon: Heart },
                             { id: 'addresses', label: 'Addresses', icon: MapPin },
                             { id: 'payment', label: 'Payment Methods', icon: CreditCard },
                             { id: 'security', label: 'Security', icon: Shield },
@@ -133,9 +136,57 @@ const ProfilePage = ({ user, orders, onLogout }) => {
                                     </div>
                                 )}
                             </div>
+)}
+
+                        {activeTab === 'wishlist' && (
+                            <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-700">
+                                <div className="flex items-center justify-between border-b border-slate-100 pb-6">
+                                    <h3 className="text-2xl font-serif text-slate-900">My Wishlist</h3>
+                                    <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400">{wishlist.length} Saved Items</span>
+                                </div>
+
+                                {wishlist.length > 0 ? (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {wishlist.map(item => (
+                                            <div key={item.id} className="group bg-white border border-slate-100 rounded-2xl p-4 hover:shadow-xl transition-all duration-300">
+                                                <div className="flex gap-4">
+                                                    <div className="w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                                                        <img src={item.image} className="w-full h-full object-cover" alt={item.name} onError={(e) => { e.target.src = FALLBACK_IMAGE }} />
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h4 className="font-serif text-lg text-slate-900 mb-1">{item.name}</h4>
+                                                        <p className="text-sm font-bold text-slate-900 mb-3">₹{item.price.toLocaleString()}</p>
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => { addToCart(item); toggleWishlist(item); }}
+                                                                className="flex-1 px-3 py-2 bg-slate-900 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-indigo-600 transition-colors"
+                                                            >
+                                                                Move to Cart
+                                                            </button>
+                                                            <button
+                                                                onClick={() => toggleWishlist(item)}
+                                                                className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
+                                                            >
+                                                                <X size={16} />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="py-24 text-center bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+                                        <Heart size={48} className="mx-auto mb-6 text-slate-300" strokeWidth={1} />
+                                        <h4 className="text-xl font-serif text-slate-900 mb-2">No saved items yet.</h4>
+                                        <p className="text-sm text-slate-400 mb-8">Start adding items to your wishlist to see them here.</p>
+                                        <Link to="/shop" className="px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-indigo-600 transition-all shadow-xl inline-block">Browse Shop</Link>
+                                    </div>
+                                )}
+                            </div>
                         )}
 
-                        {activeTab !== 'orders' && (
+                        {activeTab !== 'orders' && activeTab !== 'wishlist' && (
                             <div className="py-24 text-center animate-in fade-in duration-500">
                                 <Settings size={48} className="mx-auto mb-6 text-slate-200" strokeWidth={1} />
                                 <h3 className="text-2xl font-serif text-slate-900 mb-4">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Settings</h3>

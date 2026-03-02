@@ -278,6 +278,131 @@ that promotional risks are minimized and discounts are applied only when valid.
 
     __________________________________________________________________________________
 
+    PROCESS INVOLVED
+    ________________
+
+    WaterFall Model: The stages of "The Waterfall Model" are:
+
+                    +---------------------+
+                    | Requirement         |
+                    | Analysis            |
+                    +---------------------+
+                            \
+                             \
+                    +---------------------+
+                    | System              |
+                    | Design              |        Waterfall Model
+                    +---------------------+
+                            \
+                             \
+                    +---------------------+
+                    | Implementation      |
+                    +---------------------+
+                            \
+                             \
+                    +---------------------+
+                    | Testing             |
+                    +---------------------+
+                            \
+                             \
+                    +---------------------+
+                    | Deployment          |
+                    +---------------------+
+                            \
+                             \
+                    +---------------------+
+                    | Maintenance         |
+                    +---------------------+
+
+    Requirement Gathering & Analysis: This is the starting phase of the 
+    SDLC in which all possible system requirements are captured & analyzed. 
+    Software requirements specification includes the complete information 
+    about how actual end users are expecting from the system. This document 
+    covers all the necessary requirements for the development of the Luxima 
+    e-commerce project, including premium product catalog management, admin 
+    dashboard analytics, multilingual support (English & Hindi), coupon 
+    system, and customer review management. Finally after completion of 
+    requirement gathering & analysis (validation of requirement against the 
+    user needs), a Requirement Specification document is created which gave 
+    out as an input to the next phase of SDLC. In this model once we moved 
+    to the next phase then it won't possible to add or update the requirements.
+
+    System & Software Design: Prior to start actual coding, it is mandatory 
+    to be aware of what all features we are going to implement & how it 
+    would look like? The requirement specifications document created in the 
+    first phase is used as the input to this phase & based on this the system 
+    design specifications would be prepared. In which all hardware & system 
+    requirements would be specified. For the Luxima project, the system was 
+    designed using React.js component-based architecture for the frontend, 
+    Node.js with Express for the backend API layer, and PostgreSQL as the 
+    relational database. The system design specifications document prepared 
+    in this phase is used as input for the Implementation & Testing phase model.
+
+    Implementation & Unit Testing: Upon getting the system design 
+    specifications document, the actual coding would be started. Before 
+    starting the actual coding, requirements are divided into the modules/units. 
+    In the actual coding the initially develop the small programs called units. 
+    For the Luxima project, this included developing individual React components 
+    (AdminDashboard, ProductDetailPage, ProfilePage, etc.), implementing the 
+    API routes in Node.js, setting up PostgreSQL database schemas for products, 
+    users, orders, reviews, and coupons, and integrating Recharts for sales 
+    analytics visualization. After implementing all units the integration would 
+    be started in the next phase. The developed unit's model functionality is 
+    tested separately in this phase to check whether the unit models are meets 
+    the specified requirements & this individual model testing is called as 
+    Unit Testing.
+
+    Integration & System Testing: In the previous model the system 
+    requirements are divided into models & each model is developed & tested 
+    separately. In this phase all units are integrated & done the system 
+    testing to check whether all the models/units are integrated properly or 
+    not & the system as whole doing as mention as per the system requirement 
+    document, so we call this phase as the Integration & System Testing. For 
+    the Luxima project, this involved testing the complete flow from product 
+    browsing with filters (price, category, sorting) through to checkout with 
+    coupon validation, invoice generation, and admin analytics dashboard 
+    rendering with Recharts. Upon complete testing of software is done then 
+    actual Software is successfully send to customer.
+
+    Operations & Maintenance: This phase is the never ending phase of 
+    the Waterfall Model. The problems are comes in picture after 
+    Implementation & Unit Testing phase. The issues found after the 
+    implementation phase i.e. not found in the period of the development life 
+    cycle. Some of the issues are not catch after testing cycle done so those 
+    are implemented in the maintenance phase, so this phase is called as 
+    Operations & Maintenance phase. For the Luxima project, this includes 
+    ongoing database optimization, adding new product categories, updating 
+    multilingual translations, enhancing the admin dashboard with new analytics 
+    features, and maintaining security patches for the Node.js backend.
+
+    Advantages of Waterfall Model:
+
+    * This is linear simple model to implement & easy to maintain.
+    * In the SDLC initial phase spent time on reviewing requirements and 
+      design which saves the time later.
+    * Required resources are minimum in this model as compare to other.
+    * After every phase of the model a document in created which help & 
+      simpler to understand & design the system.
+    * Upon completion of coding, is done to check for implemented code 
+      or correctness of system.
+    * For each stage deadlines can be set which will help to develop the 
+      system on decided time frame.
+
+    Disadvantages of Waterfall Model:
+
+    * The biggest disadvantages of such system is it won't allow to go 
+      back. If the problems in the design phase which creates 
+      complication in the implementation phase.
+    * This model is rigid model. Not flexible & make changes is not 
+      possible in the development of system.
+    * Unable to start the next phase before completing the previous 
+      phase so time consuming.
+    * In the deployment phase all requirements are not covered or all 
+      requirements are not cover so adding such requirements may 
+      create unsuitable system.
+
+    __________________________________________________________________________________
+
     DETAILED LIFE CYCLE OF THE PROJECT
     __________________________________
 
@@ -355,3 +480,140 @@ that promotional risks are minimized and discounts are applied only when valid.
     Multivalued attributes are those that are capable of taking on more than one value.
     Derived attributes are attributes whose value can be calculated from related attribute 
     values.
+
+    __________________________________________________________________________________
+
+    METHODOLOGY USED FOR TESTING
+    ____________________________
+
+    Testing Methodologies
+    As software applications get ever more complex and intertwined and with the large 
+    number of different platforms and devices that need to get tested, it is more important 
+    than ever to have a robust testing methodology for making sure that software 
+    products/systems being developed have been fully tested to make sure they meet their 
+    specified requirements and can successfully operate in all the anticipated 
+    environments with the required usability and security. This page describes the 
+    various components of a thorough testing methodology and illustrates how testing 
+    frameworks can be best suited to help you implement and manage them on your projects.
+
+    +-------------------------------------------------------------------+
+    |                     Functional Testing                            |
+    |                                                                   |
+    |  +-----------+ +-----------+ +-----------+ +-----------+          |
+    |  |   Unit    | |Integration| |  System   | |Acceptance |          |
+    |  |  Testing  | |  Testing  | |  Testing  | |  Testing  |          |
+    |  +-----------+ +-----------+ +-----------+ +-----------+          |
+    +-------------------------------------------------------------------+
+
+    +-------------------------------------------------------------------+
+    |                   Non-Functional Testing                          |
+    |                                                                   |
+    |  +-----------+ +-----------+ +-----------+ +-----------+          |
+    |  |Performance| | Security  | | Usability | |Compatibil-|          |
+    |  |  Testing  | |  Testing  | |  Testing  | |ity Testing|          |
+    |  +-----------+ +-----------+ +-----------+ +-----------+          |
+    +-------------------------------------------------------------------+
+
+    Functional Testing
+    The functional testing part of a testing methodology is typically broken down into four 
+    components - unit testing, integration testing, system testing and acceptance testing - 
+    usually executed in this order. Each of them is described below:
+
+    Unit Testing
+    The Unit testing part of a testing methodology is the testing of individual software 
+    modules or components that make up an application or system. These tests are usually 
+    module is created as part of the specification. Each module function is tested by a 
+    specific unit test fixture written in the same programming language as the module. In 
+    the Luxima project, unit tests are written for individual React components such as 
+    AdminDashboard, ProductDetailPage, and ProfilePage using testing libraries like 
+    Jest and React Testing Library to verify that each component renders correctly, 
+    handles state changes properly, and responds to user interactions as expected.
+
+    Integration Testing
+    The Integration testing part of a testing methodology is the testing of the different 
+    models/components that have been successfully unit tested when integrated together 
+    to perform specific tasks and activities (also known as scenario testing). This testing is 
+    usually done with a combination of automated functional tests and manual testing 
+    depending on how easy it is to create automated tests for specific integrated 
+    components. In the Luxima project, integration testing verifies that the React 
+    frontend communicates correctly with the Node.js/Express backend API, and that 
+    the API properly interacts with the PostgreSQL database for operations such as 
+    product retrieval, order placement, coupon validation, and review submission.
+
+    System Testing
+    The system testing part of a testing methodology involves testing the entire system for 
+    errors and bugs. This test is carried out by interfacing the hardware and software 
+    components of the entire system (that have been previously unit tested and integration 
+    tested), and then testing it as a whole. This testing is listed under the black-box testing 
+    method, where the software is checked for user-expected working conditions as well 
+    as potential exceptions and edge conditions. In the Luxima project, system testing 
+    covers the complete user flow from browsing products with filters (price, category, 
+    sorting), adding items to the shopping cart, applying discount coupons, completing 
+    checkout, generating invoices, and verifying the admin dashboard analytics display 
+    correctly with Recharts visualization.
+
+    Acceptance Testing
+    The acceptance testing part of a testing methodology is the final phase of functional 
+    software testing and involves making sure that all the product/project requirements 
+    have been met and that the end-users and customers have tested the system to make 
+    sure it operates as expected and meets all their defined requirements. In the Luxima 
+    project, acceptance testing involves the store administrator verifying that all dashboard 
+    features work correctly, including sales analytics, product management, order 
+    tracking, review moderation, coupon management, and multilingual support 
+    (English & Hindi) switching functionality.
+
+    Performance, Load, Stress Testing
+    There are several different types of performance testing in most testing 
+    methodologies, for example: performance testing is measuring how a system behaves 
+    under an increasing load (both numbers of users and data volumes), load testing is 
+    verifying that the system can operate at the required response times when subjected to 
+    its expected load, and stress testing is finding the failure point(s) in the system when 
+    the tested load exceeds that which it can support. In the Luxima project, performance 
+    testing ensures that the React.js frontend renders product pages and admin dashboard 
+    charts quickly, the Node.js API handles concurrent requests efficiently, and the 
+    PostgreSQL database queries remain optimized under heavy data loads.
+
+    Security Testing
+    Security testing involves verifying that the system is protected against unauthorized 
+    access and vulnerabilities. In the Luxima project, security testing covers the JWT-based 
+    authentication system, ensuring admin routes are protected, validating that coupon 
+    codes cannot be exploited, verifying SQL injection prevention in PostgreSQL queries, 
+    and ensuring sensitive user data is properly encrypted and secured.
+
+    Usability Testing
+    Usability testing evaluates how easy and intuitive the system is for end users. In the 
+    Luxima project, usability testing verifies that the premium interface design provides 
+    a seamless shopping experience, the multilingual toggle works smoothly, product 
+    filters and sorting are intuitive, and the admin dashboard presents complex analytics 
+    data in an easily understandable format through Recharts visualizations.
+
+    Compatibility Testing
+    Compatibility testing ensures the system works correctly across different browsers, 
+    devices, and operating systems. In the Luxima project, compatibility testing verifies 
+    that the React.js responsive design works on various screen sizes (desktop, tablet, 
+    mobile), functions correctly across major browsers (Chrome, Firefox, Safari, Edge), 
+    and that all interactive features perform consistently regardless of the platform.
+
+    __________________________________________________________________________________
+
+    CONCLUSION
+    __________
+
+        Now days computerizations of existing manual system is going on a large 
+    scale because of the versatility, speed, accuracy and diligence it offers to its users. 
+    Computers provide practical means to organize things systematically and 
+    economically in the organization the use of computers for managing transactions, 
+    information processing and preparation of reports can prove to be a blessing.
+
+        The project is discussion is an attempt to attain all the above said 
+    objectives. Its development was mean to replace the manual system and to achieve the 
+    goal to maximum accuracy and most efficiently. But like every other system might 
+    process faults to its credits and has its own limitation. Neglecting these few negations, 
+    the Luxima e-commerce management system can be called a stepping stone to automate 
+    premium retail management processes in luxury home decor organizations. The system 
+    successfully demonstrates how modern web technologies like React.js, Node.js, and 
+    PostgreSQL can be leveraged to create a comprehensive, elegant, and efficient 
+    management solution that handles everything from product catalog management and 
+    sales analytics to customer engagement and invoice generation.
+
+    __________________________________________________________________________________
